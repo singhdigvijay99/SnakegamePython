@@ -2,6 +2,7 @@ from curses import KEY_DOWN
 import pygame
 
 from pygame.locals import *
+import  time
 
 class Snake:
     def __init__(self,parent_screen) -> None:
@@ -9,28 +10,40 @@ class Snake:
         self.block = pygame.image.load("resource/block.jpg").convert()
         self.x = 100
         self.y = 100
+        self.direction = 'down'
+
+    
+        
+
+    def move_left(self):
+        self.direction = 'left'
+    
+    def move_right(self):
+        self.direction = 'rigth'
+
+    def move_up(self):
+        self.direction = 'up'
+    
+    def move_down(self):
+        self.direction = 'down'
+
+    def walk(self):
+        if self.direction == 'left':
+            self.x -=10
+        if self.direction == 'rigth':
+            self.x +=10 
+        if self.direction == 'up':
+            self.y -=10
+        if self.direction == 'down':
+            self.y +=10
+        
+        self.draw()
 
     def draw(self):
         self.parent_screen.fill((72,191,145))
         self.parent_screen.blit(self.block,(self.x,self.y))        
         pygame.display.flip()
-        
 
-    def move_left(self):
-        self.x -=  10
-        self.draw()
-    
-    def move_right(self):
-        self.x +=  10
-        self.draw()
-
-    def move_up(self):
-        self.y -=  10
-        self.draw()
-    
-    def move_down(self):
-        self.y +=  10
-        self.draw()
 
 class Game:
     def __init__(self)-> None:
@@ -62,7 +75,8 @@ class Game:
                     
                 elif event.type == QUIT:
                     running = False
-       
+            self.snake.walk()
+            time.sleep(0.2)
 
 if __name__ == "__main__": 
     game = Game()
